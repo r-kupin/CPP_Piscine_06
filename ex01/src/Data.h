@@ -33,6 +33,7 @@ public:
 
 	static uintptr_t serialize(Data* ptr);
 	static Data* deserialize(uintptr_t raw);
+	bool operator==(const Data &rhs) const;
 private:
 	int some_int_data_;
 	std::string some_string_data_;

@@ -57,6 +57,11 @@ Data *Data::deserialize(uintptr_t raw) {
 	return (reinterpret_cast<Data*>(raw));
 }
 
+bool Data::operator==(const Data &rhs) const {
+	return some_int_data_ == rhs.some_int_data_ &&
+		   some_string_data_ == rhs.some_string_data_;
+}
+
 std::ostream &operator<<(std::ostream &os, const Data &data) {
 	os << "some_int_data_: " << data.GetSomeIntData()
 	<< " some_string_data_: " << data.GetSomeStringData();

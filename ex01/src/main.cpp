@@ -14,9 +14,10 @@
 #include "Data.h"
 
 int main() {
-	Data source(1, "The Nameless One");
-	Data* sink;
+	Data source(1, "The Great Old One");
+	Data* sink_ptr;
 	std::cout << source << std::endl;
-	sink = Data::deserialize(Data::serialize(&source));
-	std::cout << *sink << std::endl;
+	sink_ptr = Data::deserialize(Data::serialize(&source));
+	std::cout << *sink_ptr << std::endl;
+	return 0;
 }
