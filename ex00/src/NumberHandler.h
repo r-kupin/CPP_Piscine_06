@@ -15,8 +15,7 @@
 
 #include <string>
 
-class NumberHandler {
-public:
+struct NumberHandler {
 	static std::string GetIntRep(const std::string &value);
 	static std::string GetFloatRep(const std::string &value);
 	static std::string GetDoubleRep(const std::string &value);

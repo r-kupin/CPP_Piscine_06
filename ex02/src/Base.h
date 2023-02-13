@@ -13,6 +13,12 @@
 #ifndef EX02_BASE_H
 #define EX02_BASE_H
 
+template <typename T>
+void writeMessage(T& messServer){    // (1)
+
+	messServer.writeMessage();
+
+}
 
 class Base {
 public:

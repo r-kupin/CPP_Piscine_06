@@ -39,14 +39,10 @@ const std::string &ScalarConversion::GetRawValue() const {
 
 std::ostream &operator<<(std::ostream &os, const ScalarConversion &c) {
 	os << "Given string: " << c.GetRawValue() << std::endl;
-	os << "As char: " <<
-			CharHandler::GetCharRep(c.GetRawValue()) << std::endl;
-	os << "As int: " <<
-			NumberHandler::GetIntRep(c.GetRawValue()) << std::endl;
-	os << "As float: " <<
-			NumberHandler::GetFloatRep(c.GetRawValue()) << std::endl;
-	os << "As double: " <<
-			NumberHandler::GetDoubleRep(c.GetRawValue());
+	os << "char: " << CharHandler::GetCharRep(c.GetRawValue()) << std::endl;
+	os << "int: " << NumberHandler::GetIntRep(c.GetRawValue()) << std::endl;
+	os << "float: " << NumberHandler::GetFloatRep(c.GetRawValue()) << std::endl;
+	os << "double: " << NumberHandler::GetDoubleRep(c.GetRawValue());
 	return os;
 }
 

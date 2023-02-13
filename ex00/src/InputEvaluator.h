@@ -15,8 +15,7 @@
 
 #include <string>
 
-class InputEvaluator {
-public:
+struct InputEvaluator {
 	static bool input_is_correct(std::string input);
 };
 

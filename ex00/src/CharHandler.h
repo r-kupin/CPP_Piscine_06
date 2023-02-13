@@ -15,8 +15,7 @@
 
 #include <string>
 
-class CharHandler {
-public:
+struct CharHandler {
 	static std::string GetCharRep(const std::string &value);
 };
 

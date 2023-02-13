@@ -27,19 +27,19 @@ std::string skip_plus(std::string val) {
 }
 
 bool handle_fractional(std::string &ch_value) {
-	if (ch_value.find('f') == std::string::npos) {			/* it is float */
+	if (ch_value.find('f') == std::string::npos) {			   /* it is float */
 		float number = strtof(ch_value.c_str(), NULL);
 		if ((number - static_cast<int>(number)) < 0.000001) {/* explicit cast */
-			std::ostringstream s;	/* if fractional part isn't significant */
-			s << static_cast<int>(number);						/* explicit */
-			ch_value = s.str();			/* we can turn it to a whole number */
-			return true;				/* and probably display it as a chr */
+			std::ostringstream s;	  /* if fractional part isn't significant */
+			s << static_cast<int>(number);						  /* explicit */
+			ch_value = s.str();			  /* we can turn it to a whole number */
+			return true;				  /* and probably display it as a chr */
 		}
-	} else {												/* it is double */
+	} else {												  /* it is double */
 		double number = strtod(ch_value.c_str(), NULL);
-		if ((number - static_cast<int>(number)) < 0.000001) {	/* explicit */
+		if ((number - static_cast<int>(number)) < 0.000001) {	  /* explicit */
 			std::ostringstream s;
-			s << static_cast<int>(number);						/* explicit */
+			s << static_cast<int>(number);						  /* explicit */
 			ch_value = s.str();
 			return true;
 		}
@@ -70,8 +70,8 @@ std::string CharHandler::GetCharRep(const std::string &value) {
 	if (ch_value.find_first_not_of("0123456789") == std::string::npos ) {
 		int number = std::atoi(ch_value.c_str());
 		if (number >= ' ' && number <= '~') {
-			final_value = static_cast<char>(number);	/* explicit conversion */
-			return "'" + std::string(1, final_value) + "'";			/* input is number */
+			final_value = static_cast<char>(number);   /* explicit conversion */
+			return "'" + std::string(1, final_value) + "'";/* input is number */
 		}
 		if (number < ' ' || number == 127)
 			return kNonDisplayable;
