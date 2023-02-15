@@ -13,17 +13,27 @@
 #include "ScalarConversion.h"
 #include "CharHandler.h"
 #include "InputEvaluator.h"
-#include "NumberHandler.h"
 
-ScalarConversion::ScalarConversion() : value_("") {}
+ScalarConversion::ScalarConversion()
+: int_handler_(""), float_handler_(""), double_handler_("") {}
 
 ScalarConversion::ScalarConversion(const ScalarConversion &other)
-: value_(other.value_) {}
+: int_handler_(other.int_handler_), float_handler_(other.float_handler_),
+  double_handler_(other.double_handler_), value_(other.value_) {}
 
 ScalarConversion::ScalarConversion(const std::string &value)
-: value_(value) {
+: int_handler_(value), float_handler_(value),
+	double_handler_(value), value_(value) {
+//	check for the wrong input that we shouldn't even try to cast
 	if (value.empty() || !InputEvaluator::input_is_correct(value))
 		throw WrongInputException();
+	else {
+		representation_ = "Given string: " + value_ + "\n" +
+/* Just static method */  "char: " + CharHandler::GetCharRep(value_) + "\n" +
+/* CRTP for numbers */    "int: " + int_handler_.Handle() + "\n" +
+						  "float: " + float_handler_.Handle() + "\n" +
+						  "double: " + double_handler_.Handle();
+	}
 }
 
 ScalarConversion &ScalarConversion::operator=(const ScalarConversion &other) {
@@ -33,16 +43,12 @@ ScalarConversion &ScalarConversion::operator=(const ScalarConversion &other) {
 	return *this;
 }
 
-const std::string &ScalarConversion::GetRawValue() const {
-	return value_;
+const std::string &ScalarConversion::GetRepresentation() const {
+	return representation_;
 }
 
 std::ostream &operator<<(std::ostream &os, const ScalarConversion &c) {
-	os << "Given string: " << c.GetRawValue() << std::endl;
-	os << "char: " << CharHandler::GetCharRep(c.GetRawValue()) << std::endl;
-	os << "int: " << NumberHandler::GetIntRep(c.GetRawValue()) << std::endl;
-	os << "float: " << NumberHandler::GetFloatRep(c.GetRawValue()) << std::endl;
-	os << "double: " << NumberHandler::GetDoubleRep(c.GetRawValue());
+	os << c.GetRepresentation();
 	return os;
 }
 

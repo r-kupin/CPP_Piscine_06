@@ -11,12 +11,8 @@
 /******************************************************************************/
 
 #include <cstdlib>
-#include <sstream>
 #include "CharHandler.h"
 #include "ScalarConversion.h"
-
-static const std::string kImpossible = "impossible";
-static const std::string kNonDisplayable = "Non displayable";
 
 std::string skip_plus(std::string val) {
 	if (val[0] == '+') {
@@ -47,6 +43,7 @@ bool handle_fractional(std::string &ch_value) {
 	return false;
 }
 
+// Boring checks and conversion to string
 std::string CharHandler::GetCharRep(const std::string &value) {
 	char final_value;
 

@@ -28,7 +28,7 @@ bool HasOnlyNumbers(const std::string& str) {
 				count_dots > 1)				/* No multiple Dots */
 				return false;
 		}
-		if (str[i] == 'f') {				/* if encounter a f */
+		if (str[i] == 'f') {				/* if encounter an f */
 			++count_fs;
 			if (i != (str.length() - 1) ||	/* f should be last */
 				count_fs > 1 ||				/* No Multiple f's */
@@ -40,6 +40,7 @@ bool HasOnlyNumbers(const std::string& str) {
 	return true;
 }
 
+//	basic checks, nothing special
 bool InputEvaluator::input_is_correct(std::string input) {
 	if (input == "inf" || input == "inff")	/* inf and inff can't be unsigned */
 		return false;

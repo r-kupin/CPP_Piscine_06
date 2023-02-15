@@ -11,7 +11,7 @@
 /******************************************************************************/
 /*
 		Description
-	So, thi is all about c++ casts. C++ casts are no different from C-casts, do
+	So, this is all about c++ casts. C++ casts are no different from C-casts, do
  		the same thing, but provide some benefits:
  		- They are "searchable". Meaning - if you want to find a casts in your
  			project - you can search for ".._cast<...". Try to do it with
@@ -19,14 +19,47 @@
 		- They provide some communication functionality. Some can throw
 			errors or exceptions, or return NULL - if cast is not possible.
 		- They have self-explaining names, to make code more understandable.
-	There are 4 basic kinds of casting:
- 		1. Static Cast
-		2. Dynamic Cast
-		3. Const Cast
-		4. Reinterpret Cast
+		- They are designed to disambiguate cast operations dealing with
+			polymorphism because C++ adds the following features that really
+			change the game:
+    			+ Inheritance
+    			+ Templates
+	In C ++ there are three different things we might mean by a pointer cast.
+ 	Say class D derives from class B, and we declare a pointer B* pb;
+ 	What should (D*)pb do? Here are three possibilities:
+
+    	1. Return a pointer to the same byte of memory, but just change the type
+    	of the pointer. (This is the same as what all pointer casts do in C)
+    	2. Check whether the B* really points to a B that is part of a D object.
+    	If so, return a pointer to the D object. If not, fail (maybe by
+    	returning a null pointer or throwing an exception.)
+    	3. Assume that the B* points to a B that is part of a D object;
+    	don't bother performing a check. Adjust the address of the pointer if
+    	necessary so that it will point to the D object.
+
+	It is conceivable that in C++ we might want to perform any of these three
+ 	conversions. Therefore, C++ gives us three different casts:
+ 	reinterpret_cast<D*> for function (1),
+ 	dynamic_cast<D*> for function (2),
+ 	and static_cast<D*> for function (3).
+
+    dynamic_cast casts up and down class hierarchies only, always checking that
+    	the conversion requested is valid.
+    static_cast performs implicit conversions, the reverses of implicit standard
+    	conversions, and (possibly unsafe) base to derived conversions.
+    reinterpret_cast converts one pointer to another without changing the
+    	address, or converts between pointers and their numerical values.
+    const_cast only changes cv-qualification; all other casts cannot cast away
+    	constness.
+
+		And the reason why there are four different casts in C++ is so that you
+ 	can write a cast and be explicit about what kind of conversion you intend to
+ 	perform; the compiler will never incorrectly "guess" what you meant; and
+ 	other people reading your code will be able to tell what kind of conversions
+ 	it does.
 
  	Let's start with a first two. To fully understand that we need to make a
-step back and recall a polymorphism. Dynamic and static one.
+	step back and recall a polymorphism. Dynamic and static one.
 
  	Dynamic Polymorphism
 
@@ -61,47 +94,57 @@ and assign it to the derived-class object - we have a base-classes interface
       │            ┌───────────────────────────┐                         │
       └───────────►│Bird* quackie = new Duck();│◄────────────────────────┘
                    └───────────────────────────┘
+In general, there's nothing wrong to do so in the first place, but in a C++
+context there are some comments here.
+	First, since we use virtual functions we create a vtable and during runtime
+ we call the apropriate function. There are benchmarks and articles which show
+ that this has impact on the application's performance.
+	Second, do we really need to take the concrete implementation during runtime?
+ It's more often the case that we already know during compile
+ time which one we need. We often confused why we use something dynamic
+ when we  don't need it dynamic.
 
 	Static Polymorphism
 
-	It is a same thing, but reversed. Instead of adding functionality to the
- Derived class we do it in Base. There is a mechanic, tha allows us to add
- functionality to the Derived class from inside the Base. It is called CRTP -
- Curiously Recurrent Template Pattern.
+	Let's move the implementation from above to a static one.
+ CRTP (Curiously recurring template pattern) is a method which can be seen as
+ static polymorphism (note, there are other advantages to use CRTP it's not that
+ CRTP is static polymorphism).
  	Let's say we have a class Duck, that has a quack() method, that makes a Duck
-quack. But we want to add something to this method, without modifying it's
+quack. But we want to add something to this method, without modifying its
 code, and without copying code that we want to leave as it is. Let's make our
-duck introduce it's name, before making a quack().
- 	1. Lets make for a Duck a parent class QuackerActions that will add some
+duck introduce its name, before making a quack().
+ 	1. Let's make for a Duck a parent class QuackerActions that will add some
 functionality, with a template, assuming, that it will be a Duck.
  	2. Inherit Duck from QuackerActions passing <Duck> as a template.
  	3. Add 2 overloaded methods, that will make Duck introduce itself and
 another Quacking one given as argument.
- 	4. Inside method we can SAFELY DOWNCAST parent class using
+ 	4. Inside method, we can SAFELY DOWNCAST parent class using
 static_cast<template's Name&>(*this or arg) to the template's name class - which
-is should be a class, that has a std::string name_ and quack() method.
- 	5. We can do with this Template's instance whatewer we can do with a Duck.
+should be a class, that has a std::string name_ and quack() method.
+ 	5. We can do with this Template's instance whatever we can do with a Duck.
 If we'll try to, let's say, call a method that duck doesn't have - it will be
  a compile-time error, that we'll see instantly.
 
  	Here is how it looks like:
-
-  template <typename Quacking>
+// now we have a templated base class
+template <typename Quacking>
 struct QuackerActions {
-//	Quacking one introduces itself
+// no virtual function here
 	void QuackingMakesQuack() {
+// and we cast this to the template type, where the actual implementation lives
 		Quacking quacking = static_cast<const Quacking&>(*this);
 		std::cout << "My name is : " << quacking.name_ << std::endl;
 		quacking.quack();
 	}
-//	Quacking one introduces another Quacking one
 	void QuackingMakesQuack(const QuackerActions &quacking_one) {
+// Well, not necesserely this
 		Quacking quacking = static_cast<const Quacking&>(quacking_one);
 		std::cout << "Duck's name is : " << quacking.name_ << std::endl;
 		quacking.quack();
 	}
 };
-
+// our class derived inherits from base and passes itself as template parameter
 struct Duck : QuackerActions<Duck>{
 	std::string name_;
 
@@ -111,7 +154,7 @@ struct Duck : QuackerActions<Duck>{
 		std::cout << "Quack!" << std::endl;
 	}
 };
-
+// another one
 struct RubberDuck : QuackerActions<RubberDuck>{
 	std::string name_;
 
@@ -142,6 +185,9 @@ struct RubberDuck : QuackerActions<RubberDuck>{
 │ My name is : Made in China.   │
 │ Squeak!                       │
 └───────────────────────────────┘
+  	We'll make sure that base is used that way and therefore with
+ static_cast<Quacking*>(*this) we have access to the actual concrete implementation.
+ Now we have a static approach of an interface.
  	This weird structure, where class kind of inherits itself comes with some
 benefits:
  - It is faster. Cause it all gets resolved during compilation, when all dynamic
@@ -150,51 +196,6 @@ benefits:
  has all equality operators defined on the basis of operator<, and then in
  all Derived classes instead of defining them all multiple times you can only
  define operator< and inherit everything else from Base.
-
- 		And finally - casts:
-
- 	static_cast < new-type > ( expression )
-
-	If new-type is a reference to some class D and expression is a lvalue of
-its non-virtual base B (1), or new-type is a pointer to some complete class D
- and expression is a prvalue pointer to its non-virtual base B, static_cast
- performs a downcast. (This downcast is ill-formed if B is ambiguous,
- inaccessible, or virtual base (or a base of a virtual base) of D.)
-	Such a downcast makes no runtime checks to ensure that the object's runtime
-type is actually D, and may only be used safely if this precondition is
-guaranteed by other means, such as when implementing STATIC POLYMORPHISM. Safe
-downcast may be done with dynamic_cast. If the object expression refers or points
-to is actually a base class subobject of an object of type D, the result refers
-to the enclosing object of type D. Otherwise, the behavior is undefined.
-
- 	struct B {};
-	struct D : B { B b; };
-
-	D d;
-	B& br1 = d;
-	B& br2 = d.b;
-
-(1) static_cast<D&>(br1); // OK: lvalue denoting the original d object
-(2) static_cast<D&>(br2); // UB: the b subobject is not a base class subobject
-
-Used:
-
-  - If there is an implicit conversion sequence from expression to new-type, or
- if overload resolution for a direct initialization of an object or reference of
- type new-type from expression would find at least one viable function, then
- static_cast<new-type>(expression) returns the imaginary variable Temp
- initialized as if by new-type Temp(expression);, which may involve implicit
- conversions, a call to the constructor of new-type or a call to a user-defined
- conversion operator.
-  - If new-type is the type void (possibly cv-qualified), static_cast discards
- the value of expression after evaluating it.
-  - If a standard conversion sequence from new-type to the type of expression
- exists, that does not include lvalue-to-rvalue, array-to-pointer,
- function-to-pointer, null pointer, null member pointer, or boolean conversion,
- then static_cast can perform the inverse of that implicit conversion.
-  - If conversion of expression to new-type involves lvalue-to-rvalue,
- array-to-pointer, or function-to-pointer conversion, it can be performed
- explicitly by static_cast.
 
  */
 #include <cassert>

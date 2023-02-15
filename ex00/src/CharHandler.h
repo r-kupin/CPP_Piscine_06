@@ -15,6 +15,7 @@
 
 #include <string>
 
+//	simple stateless "static class" that has a pure public function
 struct CharHandler {
 	static std::string GetCharRep(const std::string &value);
 };
