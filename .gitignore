@@ -53,3 +53,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 !/ex00/test/lib/
+!/ex01/CMakeLists.txt
+!/ex02/CMakeLists.txt
+!/ex00/CMakeLists.txt
+!/ex00/test/CMakeLists.txt
