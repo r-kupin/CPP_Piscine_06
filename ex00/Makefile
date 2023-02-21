@@ -16,9 +16,21 @@ NAME = ScalarConversion
 NAME_LIB = ScalarConversionLib
 TEST = ScalarConversionTest
 
-SRCS = src/CharHandler.cpp  src/InputEvaluator.cpp  src/main.cpp  src/NumberHandler.cpp  src/ScalarConversion.cpp
-LIB_SRCS = src/CharHandler.cpp  src/InputEvaluator.cpp src/NumberHandler.cpp  src/ScalarConversion.cpp
-TEST_SRCS = test/char_test.cpp  test/correct_input.cpp  test/int_test.cpp  test/ratio_test.cpp  test/wrong_input.cpp test/test_main.cpp
+SRCS = src/CharHandler.cpp  \
+		src/InputEvaluator.cpp  \
+		src/main.cpp  \
+		src/NumberHandler.cpp  \
+		src/ScalarConversion.cpp
+LIB_SRCS = src/CharHandler.cpp  \
+		src/InputEvaluator.cpp \
+		src/NumberHandler.cpp  \
+		src/ScalarConversion.cpp
+TEST_SRCS = test/char_test.cpp  \
+		test/correct_input.cpp  \
+		test/int_test.cpp  \
+		test/ratio_test.cpp  \
+		test/wrong_input.cpp \
+		test/test_main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 LIB_OBJS = $(LIB_SRCS:.cpp=.o)
@@ -34,6 +46,7 @@ GXXFLAGS = -lgtest -lgtest_main -pthread
 all: $(NAME)
 
 test: $(TEST)
+	./$(TEST)
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
