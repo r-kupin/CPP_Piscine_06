@@ -24,7 +24,14 @@ Base *Base::generate(void) {
 		default	: return new C();
 	}
 }
-
+/**
+ * @brief Identify the type of the object pointed to by the given pointer.
+ *
+ * This function uses dynamic_cast to check if the object pointed to by the
+ * given pointer is an instance of class A, B or C, and prints a message
+ * identifying the object's type. If the object's type cannot be identified,
+ * a generic message is printed.
+ */
 void Base::identify(Base *p) {
 	A* probably_a = dynamic_cast<A*>(p);
 	B* probably_b = dynamic_cast<B*>(p);
@@ -38,7 +45,16 @@ void Base::identify(Base *p) {
 	else
 		std::cout << " pointer p isn`t idetified...  " << std::endl;
 }
-
+/**
+ * @brief Identify the type of the object referred to by the given reference.
+ *
+ * @param p Reference to the object whose type is to be identified.
+ *
+ * This function uses dynamic_cast to check if the object referred to by the
+ * given reference is an instance of class A, B or C, and prints a message
+ * identifying the object's type. If the object's type cannot be identified,
+ * a generic message is printed.
+ */
 void Base::identify(Base &p) {
 	try {
 		A probably_a = dynamic_cast<A&>(p);
