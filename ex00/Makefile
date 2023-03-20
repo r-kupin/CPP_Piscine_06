@@ -12,9 +12,10 @@
 #             |__/      |__/                                
 #
 
-NAME = ScalarConversion
-NAME_LIB = ScalarConversionLib
-TEST = ScalarConversionTest
+NAME = ex00
+NAME_LIB = $(NAME)_lib
+ASAN = $(NAME)_asan
+TEST = $(NAME)_test
 
 SRCS = src/CharHandler.cpp  \
 		src/InputEvaluator.cpp  \
@@ -40,16 +41,29 @@ CXX = clang++
 GXX = g++
 LIB_CXX = ar rvs
 
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++03
 GXXFLAGS = -lgtest -lgtest_main -pthread
+ASANFLAGS = -g -fsanitize=address
 
 all: $(NAME)
 
+asan: $(ASAN)
+	@./$(ASAN)
+	@make clean
+
+valgrnd: $(NAME)
+	valgrind ./$(NAME)
+	@make fclean
+
 test: $(TEST)
-	./$(TEST)
+	@./$(TEST)
+	@make fclean
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+$(ASAN): $(OBJS)
+	$(CXX) $(ASANFLAGS) $(CXXFLAGS) $(OBJS) -o $(ASAN)
 
 $(NAME_LIB): $(LIB_OBJS)
 	$(LIB_CXX) $(NAME_LIB) $(LIB_OBJS)
@@ -71,6 +85,7 @@ fclean: clean
 	@rm -fr $(NAME)
 	@rm -fr $(TEST)
 	@rm -fr $(NAME_LIB)
+	@rm -fr $(ASAN)
 
 re:
 	@$(MAKE) fclean

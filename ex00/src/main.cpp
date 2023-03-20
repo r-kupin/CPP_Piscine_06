@@ -9,7 +9,7 @@
 /*                                                     ###   ########.fr      */
 /*                                                                            */
 /******************************************************************************/
-/*
+/**
 		Description
 	So, this is all about c++ casts. C++ casts are no different from C-casts, do
  		the same thing, but provide some benefits:
