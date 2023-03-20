@@ -19,7 +19,7 @@ SRCS = src/Data.cpp  src/main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = clang++
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++03
 
 all: $(NAME)
 

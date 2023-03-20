@@ -24,6 +24,7 @@ Base *Base::generate(void) {
 		default	: return new C();
 	}
 }
+
 /**
  * @brief Identify the type of the object pointed to by the given pointer.
  *
