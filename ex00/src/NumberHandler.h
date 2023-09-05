@@ -60,8 +60,8 @@
  		float_handler_.Handle();
 		double_handler_.Handle();
 */
-#ifndef EX00_LIB_NUMBERHANDLER_H
-#define EX00_LIB_NUMBERHANDLER_H
+#ifndef EX00_NUMBERHANDLER_H
+#define EX00_NUMBERHANDLER_H
 
 #include <string>
 #include <sstream>
@@ -105,4 +105,4 @@ struct DoubleHandler : NumberHandler<DoubleHandler> {
 
 
 
-#endif //EX00_LIB_NUMBERHANDLER_H
+#endif //EX00_NUMBERHANDLER_H

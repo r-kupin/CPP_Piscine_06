@@ -10,8 +10,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef EX00_LIB_CHARHANDLER_H
-#define EX00_LIB_CHARHANDLER_H
+#ifndef EX00_CHARHANDLER_H
+#define EX00_CHARHANDLER_H
 
 #include <string>
 
@@ -21,4 +21,4 @@ struct CharHandler {
 };
 
 
-#endif //EX00_LIB_CHARHANDLER_H
+#endif //EX00_CHARHANDLER_H

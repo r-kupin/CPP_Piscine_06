@@ -205,8 +205,7 @@ benefits:
 int main(int ac, const char** av) {
 	assert(ac == 2 && "There should be only 1 argument");
 	try {
-		ScalarConversion val(av[1]);
-		std::cout << val << std::endl;
+		std::cout << ScalarConversion::convert(av[1]) << std::endl;
 	} catch (const ScalarConversion::WrongInputException& e) {
 		std::cerr << e.what() << std::endl;
 	}

@@ -10,8 +10,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef EX00_LIB_INPUTEVALUATOR_H
-#define EX00_LIB_INPUTEVALUATOR_H
+#ifndef EX00_INPUTEVALUATOR_H
+#define EX00_INPUTEVALUATOR_H
 
 #include <string>
 
@@ -20,4 +20,4 @@ struct InputEvaluator {
 };
 
 
-#endif //EX00_LIB_INPUTEVALUATOR_H
+#endif //EX00_INPUTEVALUATOR_H

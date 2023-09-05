@@ -14,42 +14,25 @@
 #include "CharHandler.h"
 #include "InputEvaluator.h"
 
-ScalarConversion::ScalarConversion()
-: int_handler_(""), float_handler_(""), double_handler_("") {}
+ScalarConversion::ScalarConversion() {}
 
-ScalarConversion::ScalarConversion(const ScalarConversion &other)
-: int_handler_(other.int_handler_), float_handler_(other.float_handler_),
-  double_handler_(other.double_handler_), value_(other.value_) {}
-
-ScalarConversion::ScalarConversion(const std::string &value)
-: int_handler_(value), float_handler_(value),
-	double_handler_(value), value_(value) {
+std::string ScalarConversion::convert(const std::string &value) {
 //	check for the wrong input that we shouldn't even try to cast
-	if (value.empty() || !InputEvaluator::input_is_correct(value))
-		throw WrongInputException();
-	else {
-		representation_ = "Given string: " + value_ + "\n" +
-/* Just static method */  "char: " + CharHandler::GetCharRep(value_) + "\n" +
-/* CRTP for numbers */    "int: " + int_handler_.Handle() + "\n" +
-						  "float: " + float_handler_.Handle() + "\n" +
-						  "double: " + double_handler_.Handle();
-	}
-}
+    if (value.empty() || !InputEvaluator::input_is_correct(value))
+        throw WrongInputException();
+    else {
+        std::string representation;
 
-ScalarConversion &ScalarConversion::operator=(const ScalarConversion &other) {
-	if (this == &other)
-		return *this;
-	value_ = other.value_;
-	return *this;
-}
-
-const std::string &ScalarConversion::GetRepresentation() const {
-	return representation_;
-}
-
-std::ostream &operator<<(std::ostream &os, const ScalarConversion &c) {
-	os << c.GetRepresentation();
-	return os;
+        IntHandler i_handler(value);
+        FloatHandler f_handler(value);
+        DoubleHandler d_handler(value);
+        representation = "Given string: " + value + "\n" +
+        "char: " + CharHandler::GetCharRep(value) + "\n" +  /* Just static method */
+        "int: " + i_handler.Handle() + "\n" +               /* CRTP for numbers */
+        "float: " + f_handler.Handle() + "\n" +
+        "double: " + d_handler.Handle();
+        return representation;
+    }
 }
 
 const char *ScalarConversion::WrongInputException::what() const throw() {

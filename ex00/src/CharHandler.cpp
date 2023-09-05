@@ -23,7 +23,7 @@ std::string skip_plus(std::string val) {
 }
 
 bool handle_fractional(std::string &ch_value) {
-	if (ch_value.find('f') == std::string::npos) {			   /* it is float */
+	if (ch_value.find('f') == std::string::npos) {	       /* it is float */
 		float number = strtof(ch_value.c_str(), NULL);
 		if ((number - static_cast<int>(number)) < 0.000001) {/* explicit cast */
 			std::ostringstream s;	  /* if fractional part isn't significant */
@@ -67,8 +67,8 @@ std::string CharHandler::GetCharRep(const std::string &value) {
 	if (ch_value.find_first_not_of("0123456789") == std::string::npos ) {
 		int number = std::atoi(ch_value.c_str());
 		if (number >= ' ' && number <= '~') {
-			final_value = static_cast<char>(number);   /* explicit conversion */
-			return "'" + std::string(1, final_value) + "'";/* input is number */
+			final_value = static_cast<char>(number);    /* explicit conversion */
+			return "'" + std::string(1, final_value) + "'"; /* input is number */
 		}
 		if (number < ' ' || number == 127)
 			return kNonDisplayable;

@@ -13,24 +13,15 @@
 #
 
 NAME = ex02
-#NAME_LIB = $(NAME)_lib
 ASAN = $(NAME)_asan
-#TEST = $(NAME)_test
 
 SRCS = src/A.cpp  src/Base.cpp  src/B.cpp  src/C.cpp  src/main.cpp
-#LIB_SRCS =
-#TEST_SRCS =
 
 OBJS = $(SRCS:.cpp=.o)
-#LIB_OBJS = $(LIB_SRCS:.cpp=.o)
-#TEST_OBJS = $(TEST_SRCS:.cpp=.o)
 
 CXX = clang++
-#GXX = g++
-#LIB_CXX = ar rvs
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++03
-#GXXFLAGS = -lgtest -lgtest_main -pthread
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 ASANFLAGS = -g -fsanitize=address
 
 all: $(NAME)

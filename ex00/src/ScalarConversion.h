@@ -33,27 +33,9 @@ public:
 		const char *what() const throw() ; /* override */
 	};
 
-	ScalarConversion();
-	ScalarConversion(const ScalarConversion &);
-//	all logic here
-	explicit ScalarConversion(const std::string &value);
-	ScalarConversion &operator=(const ScalarConversion &);
-
-	~ScalarConversion() {};
-
-	const std::string &GetRepresentation() const;
+    static std::string convert(const std::string &val);
 private:
-//	Handler instances. Kind of redudnant, cause handling methods can be
-//	static - but I	had	to create an example of static_cast usage somehow
-	IntHandler int_handler_;
-	FloatHandler float_handler_;
-	DoubleHandler double_handler_;
-
-	std::string value_;
-	std::string representation_;
+    ScalarConversion();
 };
-
-std::ostream &operator<<(std::ostream &os, const ScalarConversion &c);
-
 
 #endif //EX00_SCALARCONVERSION_H
