@@ -34,27 +34,14 @@ valgrnd: $(NAME)
 	valgrind ./$(NAME)
 	@make fclean
 
-#test: $(TEST)
-	@#./$(TEST)
-	@#make fclean
-
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 $(ASAN): $(OBJS)
 	$(CXX) $(ASANFLAGS) $(CXXFLAGS) $(OBJS) -o $(ASAN)
 
-#$(NAME_LIB): $(LIB_OBJS)
-	#$(LIB_CXX) $(NAME_LIB) $(LIB_OBJS)
-
-#$(TEST): $(TEST_OBJS) $(NAME_LIB)
-	#$(GXX) $(GXXFLAGS) $(TEST_OBJS) $(NAME_LIB)  -o $(TEST)
-
 src/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-#test/%.o: test/%.cpp
-	#$(GXX) $(GXXFLAGS) -c $< -o $@
 
 clean:
 	@rm -fr $(OBJS)
@@ -62,8 +49,6 @@ clean:
 
 fclean: clean
 	@rm -fr $(NAME)
-	@#rm -fr $(TEST)
-	@#rm -fr $(NAME_LIB)
 	@rm -fr $(ASAN)
 
 re:

@@ -15,147 +15,147 @@
 
 
 TEST(CorrectInputTest_CorrectCharInput, OnlyPlus){
-	EXPECT_NO_THROW(ScalarConversion var("+"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+"));
 }
 
 TEST(CorrectInputTest_CorrectCharInput, PlusAndNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+100"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+100"));
 }
 
 TEST(CorrectInputTest_CorrectCharInput, Number) {
-	EXPECT_NO_THROW(ScalarConversion var("100"));
+	EXPECT_NO_THROW(ScalarConversion::convert("100"));
 }
 
 TEST(CorrectInputTest_CorrectCharInput, PlusAndLongNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+123"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+123"));
 }
 
 TEST(CorrectInputTest_CorrectCharInput, OnlyMinus){
-	EXPECT_NO_THROW(ScalarConversion var("-"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, PlusAndNonDisplayableNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+1"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+1"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, Zero) {
-	EXPECT_NO_THROW(ScalarConversion var("0"));
+	EXPECT_NO_THROW(ScalarConversion::convert("0"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, PlusZero) {
-	EXPECT_NO_THROW(ScalarConversion var("+0"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+0"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, MinusZero) {
-	EXPECT_NO_THROW(ScalarConversion var("-0"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-0"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, JustNonDisplayableNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("10"));
+	EXPECT_NO_THROW(ScalarConversion::convert("10"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, OtherNonDisplayableNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("31"));
+	EXPECT_NO_THROW(ScalarConversion::convert("31"));
 }
 
 TEST(CorrectInputTest_NonDisplayableChar, BigNonDisplayableNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("127"));
+	EXPECT_NO_THROW(ScalarConversion::convert("127"));
 }
 
 
 TEST(CorrectInputTest_NumericNotChar, LittleTooBigNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+128"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+128"));
 }
 
 TEST(CorrectInputTest_NumericNotChar, WayTooBigNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+1234"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+1234"));
 }
 
 TEST(CorrectInputTest_NumericNotChar, LitleNegativeNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("-1"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-1"));
 }
 
 TEST(CorrectInputTest_NumericNotChar, BiggerNegativeNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("-123"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-123"));
 }
 
 
 TEST(CorrectInputTest_NotNumericNotChar, Nan) {
-	EXPECT_NO_THROW(ScalarConversion var("nan"));
+	EXPECT_NO_THROW(ScalarConversion::convert("nan"));
 }
 
 TEST(CorrectInputTest_NotNumericNotChar, PosInf) {
-	EXPECT_NO_THROW(ScalarConversion var("+inf"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+inf"));
 }
 
 TEST(CorrectInputTest_NotNumericNotChar, NegInf) {
-	EXPECT_NO_THROW(ScalarConversion var("-inf"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-inf"));
 }
 
 TEST(CorrectInputTest_NotNumericNotChar, Nanf) {
-	EXPECT_NO_THROW(ScalarConversion var("nanf"));
+	EXPECT_NO_THROW(ScalarConversion::convert("nanf"));
 }
 
 TEST(CorrectInputTest_NotNumericNotChar, PosInfF) {
-	EXPECT_NO_THROW(ScalarConversion var("+inff"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+inff"));
 }
 
 TEST(CorrectInputTest_NotNumericNotChar, NegInfF) {
-	EXPECT_NO_THROW(ScalarConversion var("-inff"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-inff"));
 }
 
 TEST(CorrectInputTest_Double, FractionalLittleTooBigNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+12.8"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+12.8"));
 }
 
 TEST(CorrectInputTest_Double, FractionalWayTooBigNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("+1.234"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+1.234"));
 }
 
 TEST(CorrectInputTest_Double, FractionalLitleNegativeNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("-0.1"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-0.1"));
 }
 
 TEST(CorrectInputTest_Double, FractionalBiggerNegativeNumber) {
-	EXPECT_NO_THROW(ScalarConversion var("-12.3"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-12.3"));
 }
 
 TEST(CorrectInputTest_Float, FractionalLittleTooBigNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("+12.8f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+12.8f"));
 }
 
 TEST(CorrectInputTest_Float, FractionalWayTooBigNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("+1.234f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+1.234f"));
 }
 
 TEST(CorrectInputTest_Float, FractionalLitleNegativeNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("-0.1f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-0.1f"));
 }
 
 TEST(CorrectInputTest_Float, FractionalBiggerNegativeNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("-12.3f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-12.3f"));
 }
 
 TEST(CorrectInputTest_Float, PlusZeroPointZeroF) {
-	EXPECT_NO_THROW(ScalarConversion var("+0.0f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("+0.0f"));
 }
 
 TEST(CorrectInputTest_Float, MinusZeroPointZeroF) {
-	EXPECT_NO_THROW(ScalarConversion var("-0.0f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("-0.0f"));
 }
 
 TEST(CorrectInputTest_Float, NoPlusFractionalLittleTooBigNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("12.8f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("12.8f"));
 }
 
 TEST(CorrectInputTest_Float, FractionalLitleNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("0.1f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("0.1f"));
 }
 
 TEST(CorrectInputTest_Float, FractionalBiggerNumberF) {
-	EXPECT_NO_THROW(ScalarConversion var("12.3f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("12.3f"));
 }
 
 TEST(CorrectInputTest_Float, ZeroPointZeroF) {
-	EXPECT_NO_THROW(ScalarConversion var("0.0f"));
+	EXPECT_NO_THROW(ScalarConversion::convert("0.0f"));
 }
