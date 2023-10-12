@@ -6,7 +6,7 @@
 /*   By: rokupin <rokupin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 23:32:02 by  rokupin          #+#    #+#             */
-/*   Updated: 2023/10/12 12:22:02 by rokupin          ###   ########.fr       */
+/*   Updated: 2023/10/12 13:02:28 by rokupin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ TEST(DoubleOutputTest_Normal, nan) {
 }
 
 TEST(DoubleOutputTest_Normal, nanf) {
-	DoubleHandler handler("nan");
+	DoubleHandler handler("nanf");
 	EXPECT_EQ(handler.Handle(), "nan");
 }
 
