@@ -12,7 +12,7 @@
 #             |__/      |__/                                
 #
 
-NAME = ex00
+NAME = convert
 NAME_LIB = $(NAME)_lib
 ASAN = $(NAME)_asan
 TEST = $(NAME)_test
