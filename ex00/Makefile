@@ -36,6 +36,14 @@ OBJS = $(SRCS:.cpp=.o)
 LIB_OBJS = $(LIB_SRCS:.cpp=.o)
 TEST_OBJS = $(TEST_SRCS:.cpp=.o)
 
+TEST_LIB_DIR = ../googletest
+TEST_LIB_INCL_DIR = $(TEST_LIB_DIR)/googletest/include
+TEST_LIB_BILD_DIR = $(TEST_LIB_DIR)/build
+TEST_LIB_LIB_DIR = $(TEST_LIB_BILD_DIR)/lib
+TEST_LIB_CMAKE = $(TEST_LIB_DIR)/Makefile
+TEST_LIBS = $(TEST_LIB_LIB_DIR)/libgtest.a \
+			$(TEST_LIB_LIB_DIR)/libgtest_main.a
+
 CXX = clang++
 GXX = g++
 LIB_CXX = ar rvs
@@ -47,7 +55,7 @@ ASANFLAGS = -g -fsanitize=address
 all: $(NAME)
 
 asan: $(ASAN)
-	@./$(ASAN) f
+	@./$(ASAN)
 	@make clean
 
 valgrnd: $(NAME)
@@ -56,7 +64,9 @@ valgrnd: $(NAME)
 
 test: $(TEST)
 	@./$(TEST)
-	@make fclean
+
+$(TEST_LIBS): $(TEST_LIB_DIR)
+	@make -C $(TEST_LIB_BILD_DIR)
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
@@ -67,14 +77,14 @@ $(ASAN): $(OBJS)
 $(NAME_LIB): $(LIB_OBJS)
 	$(LIB_CXX) $(NAME_LIB) $(LIB_OBJS)
 
-$(TEST): $(TEST_OBJS) $(NAME_LIB)
-	$(GXX) $(TEST_OBJS) $(NAME_LIB) $(LINKER_FLAGS) -o $(TEST)
+$(TEST): $(TEST_LIBS) $(TEST_OBJS) $(NAME_LIB)
+	$(GXX) -L$(TEST_LIB_LIB_DIR) $(TEST_OBJS) $(NAME_LIB) $(LINKER_FLAGS) -no-pie -o $(TEST)
 
 src/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 test/%.o: test/%.cpp
-	$(GXX) -c $< -o $@
+	$(GXX) -I$(TEST_LIB_INCL_DIR) -c $< -o $@
 
 clean:
 	@rm -fr $(OBJS)
